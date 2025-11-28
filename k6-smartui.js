@@ -27,10 +27,10 @@ export default async function () {
   const page = browser.newPage();
 
   try {
-    await page.goto("https://duckduckgo.com");
+    await page.goto("https://www.lambdatest.com");
 
     // Add the following command in order to take screenshot in SmartUI
-    await captureSmartUIScreenshot(page, "Homepage")
+    await captureSmartUIScreenshot(page, "screenshot")
 
     let element = await page.$("[name=\"q\"]");
     await element.click();
