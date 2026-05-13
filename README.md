@@ -1,4 +1,4 @@
-# SmartUI SDK Sample for K6
+# SmartUI SDK Sample for K6 — TestMu AI (Formerly LambdaTest)
 
 Welcome to the SmartUI SDK sample for K6. This repository demonstrates how to integrate SmartUI visual regression testing with K6 browser automation.
 
@@ -16,7 +16,7 @@ smartui-k6-sample/
 ### Prerequisites
 
 - K6 installed (see [K6 Installation Guide](https://k6.io/docs/get-started/installation/))
-- LambdaTest account credentials
+- TestMu AI account credentials
 - Node.js installed (for SmartUI CLI, optional)
 
 ### Install K6
@@ -104,14 +104,14 @@ K6_BROWSER_ENABLED=true k6 run k6-smartui.js
 
 **Note**: 
 - `K6_BROWSER_ENABLED=true` is required to enable browser automation in K6
-- Navigate to the [LambdaTest dashboard](https://automation.lambdatest.com/build) to view the running test
+- Navigate to the [TestMu AI dashboard](https://automation.lambdatest.com/build) to view the running test
 - Visit your SmartUI project to see captured screenshots
 
 ## Test Files
 
 ### Single Scenario Test (`k6-smartui.js`)
 
-- Connects to LambdaTest Cloud using K6 browser automation
+- Connects to TestMu AI Cloud using K6 browser automation
 - Reads credentials from environment variables (`LT_USERNAME`, `LT_ACCESS_KEY`)
 - Takes screenshot with name: `screenshot`
 - Uses `smartui.takeScreenshot` action via hooks
@@ -126,7 +126,7 @@ K6_BROWSER_ENABLED=true k6 run k6-smartui.js
 
 ### Capabilities
 
-The test files include capabilities configuration for LambdaTest Cloud. Update `smartUIProjectName` to match your SmartUI project name:
+The test files include capabilities configuration for TestMu AI Cloud. Update `smartUIProjectName` to match your SmartUI project name:
 
 ```javascript
 const capabilities = {
@@ -286,8 +286,8 @@ k6 run k6-smartui.js
 ### Issue: `Unauthorized` error
 
 **Solution**:
-1. Verify LambdaTest credentials are correct
-2. Check credentials in [LambdaTest Profile Settings](https://accounts.lambdatest.com/profile)
+1. Verify TestMu AI credentials are correct
+2. Check credentials in [TestMu AI Profile Settings](https://accounts.lambdatest.com/profile)
 3. Ensure no extra spaces in environment variables
 
 ### Issue: Browser automation not working
@@ -338,16 +338,16 @@ export const options = {
 
 ## View Results
 
-After running the tests, visit your [LambdaTest dashboard](https://automation.lambdatest.com/build) to view the running test and SmartUI project to see captured screenshots.
+After running the tests, visit your [TestMu AI dashboard](https://automation.lambdatest.com/build) to view the running test and SmartUI project to see captured screenshots.
 
 ## Additional Resources
 
-- [SmartUI K6 Onboarding Guide](https://www.lambdatest.com/support/docs/smartui-onboarding-k6/)
+- [SmartUI K6 Onboarding Guide](https://www.testmuai.com/support/docs/smartui-onboarding-k6/)
 - [K6 Documentation](https://k6.io/docs/)
 - [K6 Browser Automation](https://k6.io/docs/using-k6/browser/)
-- [LambdaTest K6 Documentation](https://www.lambdatest.com/support/docs/k6-testing/)
+- [TestMu AI K6 Documentation](https://www.testmuai.com/support/docs/k6-testing/)
 - [SmartUI Dashboard](https://smartui.lambdatest.com/)
-- [LambdaTest Community](https://community.lambdatest.com/)
+- [TestMu AI Community](https://community.testmuai.com/)
 
 ## Notes
 
@@ -355,3 +355,22 @@ After running the tests, visit your [LambdaTest dashboard](https://automation.la
 - The repository uses hooks-based SmartUI integration (not SDK-based)
 - Screenshots are captured using `smartui.takeScreenshot` action via `page.evaluate()`
 - K6 browser automation is available in K6 v0.43.0 and later
+
+## 🚀 [LambdaTest is Now TestMu AI](https://www.testmuai.com/lambdatest-is-now-testmuai/)
+
+👋 Welcome to TestMu AI, the next evolution of LambdaTest. As of January 2026, LambdaTest has officially rebranded to TestMu AI. We have evolved from a cross-browser testing cloud into a unified, AI-native quality engineering platform designed for the modern DevOps era.
+
+Whether you have been part of the LambdaTest community for years or are just discovering TestMu AI, our mission remains the same: to help you ship faster with high-scale test execution, autonomous testing, and deep quality analytics.
+
+**🔄 Our Rebrand Journey**
+
+We chose the name TestMu AI to reflect our shift towards intelligent, autonomous testing. While our identity has changed, our core technology and commitment to the testing community stay the same.
+
+**✨ Specialties**
+
+- 🤖 AI-Native Test Execution (Formerly LambdaTest)
+- ⚡ Autonomous Test Automation
+- 🌐 Cross-Browser & Mobile Testing
+- 📊 Unified Quality Intelligence
+
+👉 Find [LambdaTest's New Home](https://www.testmuai.com/).
