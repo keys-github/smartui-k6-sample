@@ -1,386 +1,115 @@
-# SmartUI SDK Sample for K6 — TestMu AI (Formerly LambdaTest)
+# Run SmartUI Visual Tests with k6 on TestMu AI (Formerly LambdaTest)
 
-Welcome to the SmartUI SDK sample for K6. This repository demonstrates how to integrate SmartUI visual regression testing with K6 browser automation.
+<p align="center">
+  <a href="https://www.testmuai.com/"><img src="https://img.shields.io/badge/MADE%20BY%20TestMu%20AI-000000.svg?style=for-the-badge&labelColor=000" alt="Made by TestMu AI"></a>
+  <a href="https://k6.io/"><img src="https://img.shields.io/badge/k6-latest-brightgreen.svg?style=for-the-badge&labelColor=000000" alt="k6 version"></a>
+  <a href="https://community.testmuai.com/"><img src="https://img.shields.io/badge/Join%20the%20community-blueviolet.svg?style=for-the-badge&labelColor=000000" alt="Community"></a>
+</p>
 
-## Repository Structure
+## Getting Started
 
-```
-smartui-k6-sample/
-├── k6-smartui.js              # Cloud test with single scenario
-├── smartui-k6-scenarios.js    # Cloud test with multiple scenarios
-└── smartui-web.json           # SmartUI config (create with npx smartui config:create)
-```
+[TestMu AI](https://www.testmuai.com/) (Formerly LambdaTest) is the world's first full-stack AI Agentic Quality Engineering platform that empowers teams to test intelligently, smarter, and ship faster. Built for scale, it offers a full-stack testing cloud with 10K+ real devices and 3,000+ browsers. With AI-native test management, MCP servers, and agent-based automation, TestMu AI supports Selenium, Appium, Playwright, and all major frameworks. 
 
-## 1. Prerequisites and Environment Setup
+With TestMu AI (Formerly LambdaTest), you can run SmartUI visual regression tests with k6 performance testing framework. This sample shows how to configure k6 + SmartUI to run on the TestMu AI cloud.
+
+- [Sign up on TestMu AI](https://www.testmuai.com/register/) (Formerly LambdaTest).
+- Follow the [TestMu AI Documentation](https://www.testmuai.com/support/docs/) for the full setup walkthrough.
 
 ### Prerequisites
 
-- K6 installed (see [K6 Installation Guide](https://k6.io/docs/get-started/installation/))
-- TestMu AI account credentials
-- Node.js installed (for SmartUI CLI, optional)
+- k6 (latest stable). Install via Homebrew (macOS), apt (Linux), or download from https://k6.io/docs/get-started/installation/
+- A TestMu AI (Formerly LambdaTest) account with your username and access key
 
-### Install K6
+### Setup
 
-**macOS:**
+Clone and install dependencies:
+
 ```bash
-brew install k6
+git clone https://github.com/LambdaTest/smartui-k6-sample && cd smartui-k6-sample
+npm install -g @lambdatest/smartui-cli
 ```
 
-**Linux:**
+Set your credentials as environment variables.
+
+**macOS / Linux:**
+
 ```bash
-sudo gpg -k
-sudo gpg --no-default-keyring --keyring /usr/share/keyrings/k6-archive-keyring.gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
-echo "deb [signed-by=/usr/share/keyrings/k6-archive-keyring.gpg] https://dl.k6.io/deb stable main" | sudo tee /etc/apt/sources.list.d/k6.list
-sudo apt-get update
-sudo apt-get install k6
+export LT_USERNAME="YOUR_USERNAME"
+export LT_ACCESS_KEY="YOUR_ACCESS_KEY"
+export LT_TUNNEL="YOUR_TUNNEL_NAME"
+export PROJECT_TOKEN="YOUR_PROJECT_TOKEN"
 ```
 
 **Windows:**
-Download the installer from [K6 Installation Guide](https://k6.io/docs/get-started/installation/)
-
-**Verify installation:**
-```bash
-k6 version
-```
-
-### Environment Setup
 
 ```bash
-export LT_USERNAME='your_username'
-export LT_ACCESS_KEY='your_access_key'
+set LT_USERNAME="YOUR_USERNAME"
+set LT_ACCESS_KEY="YOUR_ACCESS_KEY"
+set LT_TUNNEL="YOUR_TUNNEL_NAME"
+set PROJECT_TOKEN="YOUR_PROJECT_TOKEN"
 ```
 
-## 2. Initial Setup and Dependencies
-
-### Clone the Repository
+### Run tests
 
 ```bash
-git clone https://github.com/LambdaTest/smartui-k6-sample
-cd smartui-k6-sample
-```
-
-### Create SmartUI Configuration (Optional)
-
-For K6 browser automation with hooks, the SmartUI config is optional. The `smartUIProjectName` in capabilities is used instead.
-
-```bash
-npx smartui config:create smartui-web.json
-```
-
-## 3. Steps to Integrate Screenshot Commands into Codebase
-
-The SmartUI screenshot function is already implemented in the repository using hooks-based integration.
-
-**Test File** (`k6-smartui.js`):
-```javascript
-import { chromium } from 'k6/experimental/browser';
-
-await page.goto("https://www.lambdatest.com");
-
-// Take screenshot using SmartUI hooks
-await captureSmartUIScreenshot(page, "screenshot");
-
-async function captureSmartUIScreenshot(page, screenshotName) {
-  await page.evaluate(_ => {}, `lambdatest_action: ${JSON.stringify({ 
-    action: "smartui.takeScreenshot", 
-    arguments: { screenshotName: screenshotName } 
-  })}`);
-}
-```
-
-**Note**: 
-- The code is already configured and ready to use
-- You can modify the URL and screenshot name if needed
-- Update `smartUIProjectName` in capabilities to match your SmartUI project name
-- The test uses K6 browser automation with hooks-based SmartUI integration
-
-## 4. Execution and Commands
-
-Execute visual regression tests on SmartUI using the following command:
-
-```bash
-K6_BROWSER_ENABLED=true k6 run k6-smartui.js
-```
-
-**Note**: 
-- `K6_BROWSER_ENABLED=true` is required to enable browser automation in K6
-- Navigate to the [TestMu AI dashboard](https://automation.lambdatest.com/build) to view the running test
-- Visit your SmartUI project to see captured screenshots
-
-## Test Files
-
-### Single Scenario Test (`k6-smartui.js`)
-
-- Connects to TestMu AI Cloud using K6 browser automation
-- Reads credentials from environment variables (`LT_USERNAME`, `LT_ACCESS_KEY`)
-- Takes screenshot with name: `screenshot`
-- Uses `smartui.takeScreenshot` action via hooks
-
-### Multiple Scenarios Test (`smartui-k6-scenarios.js`)
-
-- Demonstrates running tests with multiple browser scenarios
-- Tests Chrome and Microsoft Edge browsers
-- Uses per-VU iterations executor
-
-## Configuration
-
-### Capabilities
-
-The test files include capabilities configuration for TestMu AI Cloud. Update `smartUIProjectName` to match your SmartUI project name:
-
-```javascript
-const capabilities = {
-  "browserName": "Chrome",
-  "browserVersion": "latest",
-  "LT:Options": {
-    "user": __ENV.LT_USERNAME,
-    "accessKey": __ENV.LT_ACCESS_KEY,
-    "smartUIProjectName": "K6_Test_Sample",  // Update this to match your project
-  }
-};
-```
-
-## Best Practices
-
-### Screenshot Naming
-
-- Use descriptive, unique names for each screenshot
-- Include scenario and state information
-- Avoid special characters
-- Use consistent naming conventions
-
-### When to Take Screenshots
-
-- After page loads
-- After user interactions
-- At different stages of user journeys
-- After state changes
-
-### K6-Specific Tips
-
-- Always set `K6_BROWSER_ENABLED=true` environment variable
-- Use `page.waitForLoadState()` before screenshots
-- Handle errors gracefully in scenarios
-- Use proper VU (Virtual User) configuration
-
-### Example: Screenshot with Wait
-
-```javascript
-import { chromium } from 'k6/experimental/browser';
-
-export default async function () {
-  const browser = chromium.launch();
-  const page = browser.newPage();
-  
-  await page.goto('https://www.lambdatest.com');
-  await page.waitForLoadState('networkidle');
-  
-  await captureSmartUIScreenshot(page, "homepage");
-  
-  browser.close();
-}
-```
-
-## Common Use Cases
-
-### Multiple Scenarios
-
-```javascript
-import { chromium } from 'k6/experimental/browser';
-
-export const options = {
-  scenarios: {
-    ui: {
-      executor: 'shared-iterations',
-      options: {
-        browser: {
-          type: 'chromium',
-        },
-      },
-    },
-  },
-};
-
-export default async function () {
-  const browser = chromium.launch();
-  const page = browser.newPage();
-  
-  await page.goto('https://www.lambdatest.com');
-  await captureSmartUIScreenshot(page, "homepage");
-  
-  browser.close();
-}
-```
-
-### Performance Testing with Visual Validation
-
-```javascript
-import { check } from 'k6';
-import { chromium } from 'k6/experimental/browser';
-
-export default async function () {
-  const browser = chromium.launch();
-  const page = browser.newPage();
-  
-  const response = await page.goto('https://www.lambdatest.com');
-  check(response, {
-    'status is 200': (r) => r.status() === 200,
-  });
-  
-  await captureSmartUIScreenshot(page, "homepage-performance-test");
-  
-  browser.close();
-}
-```
-
-## CI/CD Integration
-
-### GitHub Actions Example
-
-```yaml
-name: K6 SmartUI Tests
-
-on: [push, pull_request]
-
-jobs:
-  visual-tests:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      
-      - name: Install K6
-        run: |
-          sudo gpg -k
-          sudo gpg --no-default-keyring --keyring /usr/share/keyrings/k6-archive-keyring.gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
-          echo "deb [signed-by=/usr/share/keyrings/k6-archive-keyring.gpg] https://dl.k6.io/deb stable main" | sudo tee /etc/apt/sources.list.d/k6.list
-          sudo apt-get update
-          sudo apt-get install k6
-      
-      - name: Run K6 with SmartUI
-        env:
-          K6_BROWSER_ENABLED: true
-          LT_USERNAME: ${{ secrets.LT_USERNAME }}
-          LT_ACCESS_KEY: ${{ secrets.LT_ACCESS_KEY }}
-        run: |
-          k6 run k6-smartui.js
-```
-
-## Troubleshooting
-
-### Issue: `K6_BROWSER_ENABLED is not set`
-
-**Solution**: Always set the environment variable:
-```bash
-export K6_BROWSER_ENABLED=true
 k6 run k6-smartui.js
 ```
 
-### Issue: Screenshots not captured
+View results on your TestMu AI dashboard.
 
-**Solution**:
-1. Verify `LT_USERNAME` and `LT_ACCESS_KEY` are set
-2. Check `smartUIProjectName` in capabilities matches your project
-3. Ensure K6 browser automation is enabled
-4. Wait for page to load before taking screenshots
+### Local testing with TestMu AI Tunnel
 
-### Issue: `Unauthorized` error
+To test locally hosted apps, set up the TestMu AI tunnel. OS-specific guides:
 
-**Solution**:
-1. Verify TestMu AI credentials are correct
-2. Check credentials in [TestMu AI Profile Settings](https://accounts.lambdatest.com/profile)
-3. Ensure no extra spaces in environment variables
+- [Local Testing on Windows](https://www.testmuai.com/support/docs/local-testing-for-windows/)
+- [Local Testing on macOS](https://www.testmuai.com/support/docs/local-testing-for-macos/)
+- [Local Testing on Linux](https://www.testmuai.com/support/docs/local-testing-for-linux/)
 
-### Issue: Browser automation not working
+Add the following to your capabilities:
 
-**Solution**:
-1. Verify K6 version supports browser automation (v0.43.0+)
-2. Ensure `K6_BROWSER_ENABLED=true` is set
-3. Check K6 installation: `k6 version`
-
-## Configuration Tips
-
-### Capabilities Configuration
-
-Update capabilities in your test file:
-```javascript
-const capabilities = {
-  "browserName": "Chrome",
-  "browserVersion": "latest",
-  "LT:Options": {
-    "user": __ENV.LT_USERNAME,
-    "accessKey": __ENV.LT_ACCESS_KEY,
-    "platform": "Windows 10",
-    "smartUIProjectName": "Your_Project_Name",  // Update this
-    "smartUIBaseline": false  // Set to false to update baseline
-  }
-};
+```js
+tunnel: true,
 ```
 
-### VU Configuration
+## Contributions
 
-Configure virtual users appropriately:
-```javascript
-export const options = {
-  vus: 1,  // Number of virtual users
-  iterations: 1,  // Number of iterations
-  scenarios: {
-    ui: {
-      executor: 'shared-iterations',
-      options: {
-        browser: {
-          type: 'chromium',
-        },
-      },
-    },
-  },
-};
-```
+Contributions are welcome. Open an issue to discuss your idea before submitting a pull request. When reporting bugs, include your k6 version, OS, and SmartUI CLI version.
 
-## View Results
+## TestMu AI (Formerly LambdaTest) Community
 
-After running the tests, visit your [TestMu AI dashboard](https://automation.lambdatest.com/build) to view the running test and SmartUI project to see captured screenshots.
+Connect with testers and developers in the [TestMu AI Community](https://community.testmuai.com/). Ask questions, share what you are building, and discuss best practices in test automation and DevOps.
+  
+## TestMu AI (Formerly LambdaTest) Certifications
 
-## Additional Resources
+Earn free [TestMu AI Certifications](https://www.testmuai.com/certifications/) for testers, developers, and QA engineers. Validate your skills in Selenium, Cypress, Playwright, Appium, Espresso and more. Industry-recognized, shareable on LinkedIn, and built by practitioners, not marketers.
 
-- [SmartUI K6 Onboarding Guide](https://www.testmuai.com/support/docs/smartui-onboarding-k6/)
-- [K6 Documentation](https://k6.io/docs/)
-- [K6 Browser Automation](https://k6.io/docs/using-k6/browser/)
-- [TestMu AI K6 Documentation](https://www.testmuai.com/support/docs/k6-testing/)
-- [SmartUI Dashboard](https://smartui.lambdatest.com/)
-- [TestMu AI Community](https://community.testmuai.com/)
+## Learning Resources by TestMu AI (Formerly LambdaTest)
 
-## Notes
+Learn modern testing through tutorials, guides, videos, and weekly updates:
 
-- K6 browser automation requires `K6_BROWSER_ENABLED=true` environment variable
-- The repository uses hooks-based SmartUI integration (not SDK-based)
-- Screenshots are captured using `smartui.takeScreenshot` action via `page.evaluate()`
-- K6 browser automation is available in K6 v0.43.0 and later
+* [TestMu AI Blog](https://www.testmuai.com/blog/)
+* [TestMu AI Learning Hub](https://www.testmuai.com/learning-hub/)
+* [TestMu AI on YouTube](https://www.youtube.com/@TestMuAI)
+* [TestMu AI Newsletter](https://www.testmuai.com/newsletter/)
+  
+## LambdaTest is Now TestMu AI
 
-## 🚀 LambdaTest is Now TestMu AI
+On **January 12, 2026**, [LambdaTest evolved to TestMu AI](https://www.testmuai.com/lambdatest-is-now-testmuai/), the world's first fully autonomous **Agentic AI Quality Engineering Platform**.
 
-👋 Welcome to TestMu AI, the next evolution of LambdaTest. As of January 2026, [LambdaTest is Now TestMu AI](https://www.testmuai.com/lambdatest-is-now-testmuai/) - we have evolved from a cross-browser testing cloud into a unified, AI-native quality engineering platform designed for the modern DevOps era.
+Same team. Same infrastructure. Same customer accounts. All existing LambdaTest logins, scripts, capabilities, and integrations continue to work without change.
 
-Whether you have been part of the LambdaTest community for years or are just discovering TestMu AI, our mission remains the same: to help you ship faster with high-scale test execution, autonomous testing, and deep quality analytics.
+ð Find the new home for [LambdaTest](https://www.testmuai.com).
 
-### 🔄 Our Rebrand Journey
+### How LambdaTest Evolved into TestMu AI
 
-In 2017, we introduced LambdaTest with a clear mission: to become the world's most trusted cloud testing platform. We built a scalable, high-performance test cloud that eliminated flakiness, improved developer feedback cycles, and accelerated release velocity for teams worldwide.
+In 2017, we launched LambdaTest with a simple mission: make testing fast, reliable, and accessible. As LambdaTest grew, we expanded into Test Intelligence, Visual Regression Testing, Accessibility Testing, API Testing, and Performance Testing, covering the full depth of the testing lifecycle.
 
-As LambdaTest grew, we expanded the platform into Test Intelligence, Visual Regression Testing, Accessibility Testing, API Testing, and Performance Testing, covering the entire testing lifecycle. These capabilities enabled teams to test any stack, on any technology, at enterprise scale.
+As software development entered the AI era, testing had to evolve, too. We rebuilt the architecture to be AI-native from the ground up, with autonomous agents that **plan, author, execute, analyze, and optimize tests** while keeping humans in the loop. The platform integrates with your repos, CI, IDEs, and terminals, continuously learning from every code change and development signal.
 
-Over time, we rebuilt the architecture to be AI-native from the ground up. What began as LambdaTest's high-performance testing cloud has now evolved into TestMu AI, an AI-native, multi-agent platform redefining modern quality engineering.
+That evolution earned a new name: **TestMu AI**, built for an AI-first future of quality engineering. TestMu is not a new name for us. It is the name of our annual community conference, which has brought together 100,000+ quality engineers to discuss how AI would reshape testing, long before that became an industry norm. 
 
-We chose the name TestMu AI to reflect our shift towards intelligent, autonomous testing. While our identity has changed, our core technology and commitment to the testing community stay the same.
+What started as a high-performance cloud testing platform has transformed into an AI-native, multi-agent system powering a connected, end-to-end quality layer. That evolution defined a new identity: LambdaTest evolved into TestMu AI, built for an AI-first future of quality engineering.
 
-👉 Find [LambdaTest's New Home](https://www.testmuai.com/).
+## Support
 
-### 🔭 Explore TestMu AI
-
-The same infrastructure LambdaTest customers relied on, now delivered through autonomous AI agents.
-
-- [KaneAI](https://www.testmuai.com/kane-ai/)
-- [Agent-to-Agent Testing](https://www.testmuai.com/agent-to-agent-testing/)
-- [HyperExecute](https://www.testmuai.com/hyperexecute/)
-- [Real Device Cloud](https://www.testmuai.com/real-device-cloud/)
-- [Pricing](https://www.testmuai.com/pricing/)
-- [Documentation](https://www.testmuai.com/support/docs/)
+Got a question? Email [support@testmuai.com](mailto:support@testmuai.com) or chat with us 24x7 from our chat portal.
